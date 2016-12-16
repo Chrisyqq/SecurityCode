@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>验证码</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="./css/ymcheck.css">
+  </head>
+  <body>
+    <div class="ym-box-all">
+      <div class="ym-box" id="ymbox">
+        <div class="ym-box-vacant">
+
+        </div>
+        <div id="ymslide" class="ym-box-slide">
+
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+
+    (function(){
+      var ymObj = document.getElementById("ymslide");
+      var ymBox = document.getElementById("ymbox");
+      var BigLeft = ymBox.offsetLeft;
+      var insetWidth = ymBox.clientWidth - ymObj.clientWidth;
+      // Judge user's equipment
+      var  checkStation = function(){
+        var info = navigator.userAgent;
+        var sUserAgent = navigator.userAgent.toLowerCase();
+        var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+        var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+        var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+        var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+        var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+        var bIsAndroid = sUserAgent.match(/android/i) == "android";
+        var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+        var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+        if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+          // alert("mobile")
+          var phoneTouch = function(){
+              var pointLeft;
+              function touchStart(event){
+                pointLeft = event.touches[0].pageX - BigLeft - ymObj.offsetLeft;
+              }
+
+              function touchMove(event){
+                event.preventDefault();
+                var moveLeft = event.touches[0].pageX - pointLeft - BigLeft;
+                if(0<=moveLeft && moveLeft<=insetWidth){
+                  ymObj.style.left = moveLeft+"px";
+                }else{
+                  return false;
+                }
+
+              }
+
+              function touchEnd(event){
+                var distanceLeft = ymObj.offsetLeft;
+                var a = 0;
+                alert(distanceLeft);
+                var showBack = setInterval(function(){
+                  distanceLeft -= 1;
+                  if(0<distanceLeft){
+                    ymObj.style.left = distanceLeft + "px";
+                  }else{
+                    clearInterval(showBack)
+                  }
+                },1)
+              }
+
+            ymObj.addEventListener('touchstart',touchStart,false);
+            ymObj.addEventListener('touchmove',touchMove,false);
+            ymObj.addEventListener('touchend',touchEnd,false);
+          }();
+        } else {
+          ymObj.onmousedown = function(ev){
+             var oEvent = ev||event;
+             var pointLeft = oEvent.pageX - ymObj.offsetLeft - BigLeft;
+
+             document.onmousemove = function(ev){
+               var oEvent = ev||event;
+               var moveLeft = oEvent.pageX - pointLeft - BigLeft;
+               if(0<=moveLeft && moveLeft<=insetWidth){
+                 ymObj.style.left = moveLeft + "px";
+               }
+             }
+             document.onmouseup=function(){
+              document.onmousemove=null;
+              var distanceLeft = ymObj.offsetLeft;
+              var a = 0;
+              var turnBackNumber = ymObj.offsetLeft;
+              alert(turnBackNumber);
+
+              var showBack = setInterval(function(){
+                distanceLeft -= 1;
+                if(0<distanceLeft){
+                  ymObj.style.left = distanceLeft + "px";
+                }else{
+                  clearInterval(showBack)
+                }
+              },1)
+
+
+              document.onmouseup=null;
+            }
+
+          }
+        // alert("pc")
+        }
+      }();
+
+
+
+    })();
+  </script>
+</html>
