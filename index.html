@@ -9,7 +9,7 @@
   <body>
     <div class="ym-box-all">
       <div class="ym-box" id="ymbox">
-        <div class="ym-box-vacant">
+        <div id="ymboxvacant" class="ym-box-vacant">
 
         </div>
         <div id="ymslide" class="ym-box-slide">
@@ -23,6 +23,28 @@
     (function(){
       var ymObj = document.getElementById("ymslide");
       var ymBox = document.getElementById("ymbox");
+      var ymBoxVacant = document.getElementById("ymboxvacant");
+      // 设置大框的宽高
+      var BigBoxWidth = 300;
+      var BigBoxHeight = 300;
+      // 设置小框的高宽
+      var SmallBoxWidth = 50;
+      var SmallBoxHeight = 50;
+      var SmallBoxOffsetTop = 50;
+      ymBox.style.width = BigBoxWidth + "px";
+      ymBox.style.height = BigBoxHeight + "px";
+      ymObj.style.width = SmallBoxWidth + "px";
+      ymObj.style.height = SmallBoxHeight + "px";
+      ymObj.style.top = SmallBoxOffsetTop + "px";
+      ymBoxVacant.style.width = SmallBoxWidth + "px";
+      ymBoxVacant.style.height = SmallBoxHeight + "px";
+      // 设置大框背景图片
+      var BidBoxImgUrl = "./img/timg.jpeg";
+      // 设置大框背景图片
+      // var SmalllBoxImgUrl = ;
+      ymBox.style.background = "url(" + BidBoxImgUrl + ") no-repeat"
+      // ymObj.style.background = "url(" + SmalllBoxImgUrl + ") no-repeat"
+
       var BigLeft = ymBox.offsetLeft;
       var insetWidth = ymBox.clientWidth - ymObj.clientWidth;
       // Judge user's equipment
